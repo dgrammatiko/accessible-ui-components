@@ -1,0 +1,74 @@
+/*
+ * Variables
+ *
+ */
+$info-color: #d2e7fc;
+$success-color: #d6f6ea;
+$warning-color: #feecde;
+$danger-color: #fcdce2;
+
+
+accessible-alert{
+  display: block;
+  min-width: 250px;
+  min-height: 50px;
+  padding: .5rem 1.25rem;
+  margin-bottom: 1rem;
+  color: #000;
+  border: 1px solid transparent;
+  text-shadow: 0 1px 0 #fff;
+  animation: accessible-alert-fadein .5s;
+}
+
+@keyframes accessible-alert-fadein {
+  from { opacity: 0; }
+}
+
+accessible-alert button {
+  float: right;
+  position: relative;
+  top: -0.5rem;
+  right: -1.25rem;
+  padding: .2rem 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-top: .75rem;
+  line-height: 1.15;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  appearance: none;
+}
+
+accessible-alert-content::before {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+accessible-alert-title {
+  float: left;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+accessible-alert[type="danger"] {
+  background-color: $danger-color;
+  border-color: $danger-color;
+}
+
+accessible-alert[type="info"] {
+  background-color: $info-color;
+  border-color: $info-color;
+}
+
+accessible-alert[type="success"] {
+  background-color: $success-color;
+  border-color: $success-color;
+}
+
+accessible-alert[type="warning"] {
+  background-color: $warning-color;
+  border-color: $warning-color;
+}

@@ -1,0 +1,6 @@
+# IDE & System Related Files #
+.DS_Store
+.idea
+.vscode
+.log
+node_modules

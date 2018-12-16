@@ -1,0 +1,67 @@
+/*
+ * Variables
+ *
+ */
+accessible-alert {
+  display: block;
+  min-width: 250px;
+  min-height: 50px;
+  padding: .5rem 1.25rem;
+  margin-bottom: 1rem;
+  color: #000;
+  border: 1px solid transparent;
+  text-shadow: 0 1px 0 #fff;
+  -webkit-animation: accessible-alert-fadein .5s;
+          animation: accessible-alert-fadein .5s; }
+
+@-webkit-keyframes accessible-alert-fadein {
+  from {
+    opacity: 0; } }
+
+@keyframes accessible-alert-fadein {
+  from {
+    opacity: 0; } }
+
+accessible-alert button {
+  float: right;
+  position: relative;
+  top: -0.5rem;
+  right: -1.25rem;
+  padding: .2rem 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-top: .75rem;
+  line-height: 1.15;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+
+accessible-alert-content::before {
+  content: "";
+  clear: both;
+  display: table; }
+
+accessible-alert-title {
+  float: left;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 1rem; }
+
+accessible-alert[type="danger"] {
+  background-color: #fcdce2;
+  border-color: #fcdce2; }
+
+accessible-alert[type="info"] {
+  background-color: #d2e7fc;
+  border-color: #d2e7fc; }
+
+accessible-alert[type="success"] {
+  background-color: #d6f6ea;
+  border-color: #d6f6ea; }
+
+accessible-alert[type="warning"] {
+  background-color: #feecde;
+  border-color: #feecde; }
