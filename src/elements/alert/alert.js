@@ -1,5 +1,7 @@
 class AccessibleAlertTitle extends HTMLElement {}
+
 class AccessibleAlertContent extends HTMLElement {}
+
 class AccessibleAlert extends HTMLElement {
   /*
    * Attributes
@@ -7,7 +9,8 @@ class AccessibleAlert extends HTMLElement {
    * type: controls the color of the alert
    * dismiss: Sets a close button for discarding the alert
    * button-text: The text of the button (for i18n)
-   *
+   * auto-dismiss: The time to automatically dismiss the alert (in milliseconds)
+   * 
    */
 
   /*
@@ -27,11 +30,24 @@ class AccessibleAlert extends HTMLElement {
 
   /* Attributes to monitor */
   static get observedAttributes() { return ['type', 'dismiss']; }
+
   get type() { return this.getAttribute('type'); }
+
   set type(value) { return this.setAttribute('type', value); }
+
   get dismiss() { return this.getAttribute('dismiss'); }
+
   set dismiss(value) { return this.setAttribute('type', value); }
+
+  get autoDismiss() {
+  	const val = parseInt(this.getAttribute('auto-dismiss'), 10);
+  	return val > 0 ? val ? false;
+  }
+
+  set autoDismiss(value) { return this.setAttribute('auto-dismiss', parseInt(value, 10)); }
+  
   get buttonText() { return this.getAttribute('button-text') || 'Close'; }
+
   set buttonText(value) { return this.setAttribute('button-text', value); }
 
   constructor() {
@@ -76,6 +92,7 @@ class AccessibleAlert extends HTMLElement {
       case 'title':
       case 'message':
       case 'button-text':
+      case 'auto-dismiss':
         this.render();
         break;
       default:
@@ -122,12 +139,29 @@ class AccessibleAlert extends HTMLElement {
     }
   }
 
+  timeout() {
+	this.timeoutFn = setTimeout(this.close, this.autoDismmiss);
+  }
+
+  setDismissTimeout() {
+  	this.timeoutFn()
+  }
+ 
+ unsetDismissTimeout() {
+ 	clearTimeout(this.timeoutFn);
+ }
   /* Method to render the alert */
   render() {
     if (!this.hasAttribute('dismiss') || (this.dismiss && this.dismiss !== 'false')) {
       this.removeCloseButton();
     } else {
       this.appendCloseButton();
+    }
+    
+    if (!this.hasAttribute('auto-dismiss') || (this.autoDismiss && this.autoDismiss < 0)) {
+      this.unsetDismissTimeout();
+    } else {
+      this.setDismissTimeout();
     }
   }
 }

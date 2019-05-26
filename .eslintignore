@@ -1,4 +1,4 @@
-*.min.js
 /dist/**
 /docs/**
 /test/**
+karma.conf.ci-es5.js

@@ -45,7 +45,8 @@ const createJsFiles = (element, es6File) => {
         }],
       ],
       plugins: [
-        '@babel/plugin-transform-classes',
+        ['@babel/plugin-transform-classes'],
+        ['iife-wrap'],
       ],
       comments: true,
 
@@ -62,24 +63,27 @@ const createJsFiles = (element, es6File) => {
       ],
       plugins: [
         ['@babel/plugin-transform-classes'],
+        ['iife-wrap'],
       ],
       comments: false,
 
     },
   ];
 
+  const outDist = `${RootPath}/dist/js/accessible-${element}`;
+  const outDocs = `${RootPath}/docs/_media/js/accessible-${element}`;
   const outputFiles = [
-    `${RootPath}/dist/js/accessible-${element}.js`,
-    `${RootPath}/dist/js/accessible-${element}.min.js`,
-    `${RootPath}/dist/js/accessible-${element}-es5.js`,
-    `${RootPath}/dist/js/accessible-${element}-es5.min.js`,
+    `${outDist}.js`,
+    `${outDist}.min.js`,
+    `${outDist}-es5.js`,
+    `${outDist}-es5.min.js`,
   ];
 
   const docFiles = [
-    `${RootPath}/docs/_media/js/accessible-${element}.js`,
-    `${RootPath}/docs/_media/js/accessible-${element}.min.js`,
-    `${RootPath}/docs/_media/js/accessible-${element}-es5.js`,
-    `${RootPath}/docs/_media/js/accessible-${element}-es5.min.js`,
+    `${outDocs}.js`,
+    `${outDocs}.min.js`,
+    `${outDocs}-es5.js`,
+    `${outDocs}-es5.min.js`,
   ];
 
   settings.forEach((setting, index) => {
@@ -90,6 +94,10 @@ const createJsFiles = (element, es6File) => {
 
 const compile = () => {
   // Make sure that the dist paths exist
+  if (!Fs.existsSync(`${RootPath}/dist`)) {
+    Fs.mkdirSync(`${RootPath}/dist`, true);
+  }
+
   if (!Fs.existsSync(`${RootPath}/dist/js`)) {
     Fs.mkdirSync(`${RootPath}/dist/js`, true);
   }
@@ -98,20 +106,28 @@ const compile = () => {
     Fs.mkdirSync(`${RootPath}/dist/css`, true);
   }
 
+  if (!Fs.existsSync(`${RootPath}/docs/_media/css`)) {
+    Fs.mkdirSync(`${RootPath}/docs/_media/css`, true);
+  }
+
+  if (!Fs.existsSync(`${RootPath}/docs/_media/js`)) {
+    Fs.mkdirSync(`${RootPath}/docs/_media/js`, true);
+  }
+
   // eslint-disable-next-line no-console
   console.log(`CSS Prefixing for: ${options.settings.browsers} ♻︎  `);
 
   options.settings.elements.forEach((element) => {
     // Get the contents of the ES-XXXX file
-    let es6File = Fs.readFileSync(`${RootPath}/src/elements/js/${element}/${element}.js`, 'utf8');
+    let es6File = Fs.readFileSync(`${RootPath}/src/elements/${element}/${element}.js`, 'utf8');
 
     if (!es6File) {
       return;
     }
 
     // Check if there is a css file
-    if (Fs.existsSync(`${RootPath}/src/elements/scss/${element}/${element}.scss`)) {
-      Sass.render({ file: `${RootPath}/src/elements/scss/${element}/${element}.scss` }, (error, result) => {
+    if (Fs.existsSync(`${RootPath}/src/elements/${element}/${element}.scss`)) {
+      Sass.render({ file: `${RootPath}/src/elements/${element}/${element}.scss` }, (error, result) => {
         if (error) {
           // eslint-disable-next-line no-console
           console.error(`${error.column}`);
@@ -151,14 +167,14 @@ const compile = () => {
                   if (typeof res === 'object' && res.css) {
                     const out = res.css.toString();
                     Fs.writeFileSync(
-                      `${RootPath}/dist/css/accessible-${element}.css`,
+                      `${RootPath}/dist/css/joomla-${element}.css`,
                       out,
                       { encoding: 'UTF-8' },
                     );
 
                     // Make a copy in the docs
                     Fs.writeFileSync(
-                      `${RootPath}/docs/_media/css/accessible-${element}.css`,
+                      `${RootPath}/docs/_media/css/joomla-${element}.css`,
                       out,
                       { encoding: 'UTF-8' },
                     );
@@ -167,14 +183,14 @@ const compile = () => {
                       .process(out, { from: undefined })
                       .then((cssMin) => {
                         Fs.writeFileSync(
-                          `${RootPath}/dist/css/accessible-${element}.min.css`,
+                          `${RootPath}/dist/css/joomla-${element}.min.css`,
                           cssMin.css.toString(),
                           { encoding: 'UTF-8' },
                         );
 
                         // Make a copy in the docs
                         Fs.writeFileSync(
-                          `${RootPath}/docs/_media/css/accessible-${element}.min.css`,
+                          `${RootPath}/docs/_media/css/joomla-${element}.min.css`,
                           cssMin.css.toString(),
                           { encoding: 'UTF-8' },
                         );
@@ -193,7 +209,7 @@ const compile = () => {
               });
 
             // eslint-disable-next-line no-console
-            console.log(`accessible-${element} was created successfully ✅   `);
+            console.log(`joomla-${element} was created successfully ✅   `);
           }
         }
       });
