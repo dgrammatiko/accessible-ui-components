@@ -28,7 +28,7 @@
     "babel-preset-minify": "canary",
     "babelify": "^10.0.0",
     "browserify": "*",
-    "autoprefixer": "^9.4.2",
+    "autoprefixer": "^9.5.1",
     "cssnano": "^4.1.10",
     "node-sass": "^4.11.0",
     "postcss": "^7.0.6"
