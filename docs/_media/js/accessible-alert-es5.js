@@ -198,6 +198,15 @@
         return this.setAttribute('type', value);
       }
     }, {
+      key: "autoDismiss",
+      get: function get() {
+        var val = parseInt(this.getAttribute('auto-dismiss'), 10);
+        return val > 0 ? val : false;
+      },
+      set: function set(value) {
+        return this.setAttribute('auto-dismiss', parseInt(value, 10));
+      }
+    }, {
       key: "buttonText",
       get: function get() {
         return this.getAttribute('button-text') || 'Close';
@@ -262,6 +271,7 @@
           case 'title':
           case 'message':
           case 'button-text':
+          case 'auto-dismiss':
             this.render();
             break;
 
@@ -309,12 +319,33 @@
         }
       }
     }, {
+      key: "timeout",
+      value: function timeout() {
+        this.timeoutFn = setTimeout(this.close, this.autoDismmiss);
+      }
+    }, {
+      key: "setDismissTimeout",
+      value: function setDismissTimeout() {
+        this.timeoutFn();
+      }
+    }, {
+      key: "unsetDismissTimeout",
+      value: function unsetDismissTimeout() {
+        clearTimeout(this.timeoutFn);
+      }
+    }, {
       key: "render",
       value: function render() {
         if (!this.hasAttribute('dismiss') || this.dismiss && this.dismiss !== 'false') {
           this.removeCloseButton();
         } else {
           this.appendCloseButton();
+        }
+
+        if (!this.hasAttribute('auto-dismiss') || this.autoDismiss && this.autoDismiss < 0) {
+          this.unsetDismissTimeout();
+        } else {
+          this.setDismissTimeout();
         }
       }
     }]);

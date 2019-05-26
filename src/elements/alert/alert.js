@@ -40,12 +40,12 @@ class AccessibleAlert extends HTMLElement {
   set dismiss(value) { return this.setAttribute('type', value); }
 
   get autoDismiss() {
-  	const val = parseInt(this.getAttribute('auto-dismiss'), 10);
-  	return val > 0 ? val ? false;
+    const val = parseInt(this.getAttribute('auto-dismiss'), 10);
+    return val > 0 ? val : false;
   }
 
   set autoDismiss(value) { return this.setAttribute('auto-dismiss', parseInt(value, 10)); }
-  
+
   get buttonText() { return this.getAttribute('button-text') || 'Close'; }
 
   set buttonText(value) { return this.setAttribute('button-text', value); }

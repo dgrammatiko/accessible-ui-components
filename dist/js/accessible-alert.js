@@ -11,7 +11,8 @@ class AccessibleAlert extends HTMLElement {
    * type: controls the color of the alert
    * dismiss: Sets a close button for discarding the alert
    * button-text: The text of the button (for i18n)
-   *
+   * auto-dismiss: The time to automatically dismiss the alert (in milliseconds)
+   * 
    */
 
   /*
@@ -48,6 +49,15 @@ class AccessibleAlert extends HTMLElement {
 
   set dismiss(value) {
     return this.setAttribute('type', value);
+  }
+
+  get autoDismiss() {
+    const val = parseInt(this.getAttribute('auto-dismiss'), 10);
+    return val > 0 ? val : false;
+  }
+
+  set autoDismiss(value) {
+    return this.setAttribute('auto-dismiss', parseInt(value, 10));
   }
 
   get buttonText() {
@@ -103,6 +113,7 @@ class AccessibleAlert extends HTMLElement {
       case 'title':
       case 'message':
       case 'button-text':
+      case 'auto-dismiss':
         this.render();
         break;
 
@@ -153,6 +164,18 @@ class AccessibleAlert extends HTMLElement {
       this.removeChild(this.closeButton);
     }
   }
+
+  timeout() {
+    this.timeoutFn = setTimeout(this.close, this.autoDismmiss);
+  }
+
+  setDismissTimeout() {
+    this.timeoutFn();
+  }
+
+  unsetDismissTimeout() {
+    clearTimeout(this.timeoutFn);
+  }
   /* Method to render the alert */
 
 
@@ -161,6 +184,12 @@ class AccessibleAlert extends HTMLElement {
       this.removeCloseButton();
     } else {
       this.appendCloseButton();
+    }
+
+    if (!this.hasAttribute('auto-dismiss') || this.autoDismiss && this.autoDismiss < 0) {
+      this.unsetDismissTimeout();
+    } else {
+      this.setDismissTimeout();
     }
   }
 
