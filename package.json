@@ -47,13 +47,9 @@
     "browsers": "last 1 version"
   },
   "devDependencies": {
-<<<<<<< HEAD
-=======
-    "eslint": "^5.16.0",
->>>>>>> 2ce35fb8ecc515d7f2a0451c904788f68f04cd85
     "babel-eslint": "^10.0.1",
     "babel-plugin-iife-wrap": "^1.1.0",
-    "eslint": "^5.14.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
     "jasmine-core": "^3.3.0",
