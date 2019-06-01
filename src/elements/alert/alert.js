@@ -1,6 +1,5 @@
-class AccessibleAlertTitle extends HTMLElement { }
-
-class AccessibleAlertContent extends HTMLElement { }
+import { AccessibleAlertTitle } from './alert-title';
+import { AccessibleAlertContent } from './alert-content';
 
 class AccessibleAlert extends HTMLElement {
   /**
