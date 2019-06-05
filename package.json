@@ -31,7 +31,7 @@
     "autoprefixer": "^9.6.0",
     "cssnano": "^4.1.10",
     "node-sass": "^4.11.0",
-    "postcss": "^7.0.6"
+    "postcss": "^7.0.17"
   },
   "scripts": {
     "lint": "eslint src",
