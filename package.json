@@ -24,7 +24,7 @@
     "@babel/plugin-transform-classes": "^7.1.0",
     "@babel/preset-env": "^7.1.6",
     "babel-plugin-add-header-comment": "^1.0.3",
-    "babel-plugin-static-fs": "^1.1.0",
+    "babel-plugin-static-fs": "^3.0.0",
     "babel-preset-minify": "canary",
     "babelify": "^10.0.0",
     "browserify": "*",
