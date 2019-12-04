@@ -19,21 +19,9 @@
     "javascript"
   ],
   "author": "Dimitrios Grammatikogiannis",
-  "dependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-transform-classes": "^7.1.0",
-    "@babel/preset-env": "^7.1.6",
-    "babel-plugin-add-header-comment": "^1.0.3",
-    "babel-plugin-static-fs": "^1.1.0",
-    "babel-preset-minify": "canary",
-    "babelify": "^10.0.0",
-    "browserify": "*",
-    "autoprefixer": "^9.5.1",
-    "cssnano": "^4.1.10",
-    "node-sass": "^4.11.0",
-    "postcss": "^7.0.6"
-  },
   "scripts": {
+    "build": "rollup -c config.es6.js && rollup -c config.es5.js",
+    "autobuild": "rollup -c config.es6.js -w",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
     "tests": "karma start karma.conf.js",
@@ -42,20 +30,32 @@
   },
   "settings": {
     "elements": [
-      "alert"
+      "alert",
+      "tabs"
     ],
-    "browsers": "last 1 version"
+    "es6Browsers": "last 1 version",
+    "es5Browsers": "ie 11"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "babel-plugin-iife-wrap": "^1.1.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "jasmine-core": "^3.3.0",
-    "karma": "^3.1.3",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-jasmine": "^2.0.1",
-    "karma-sauce-launcher": "^2.0.2"
+    "@babel/core": "latest",
+    "@babel/preset-env": "latest",
+    "autoprefixer": "latest",
+    "core-js": "latest",
+    "cssnano": "latest",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "latest",
+    "eslint-plugin-import": "latest",
+    "karma": "latest",
+    "karma-firefox-launcher": "latest",
+    "karma-sauce-launcher": "latest",
+    "node-sass": "latest",
+    "postcss": "latest",
+    "rollup": "latest",
+    "rollup-plugin-babel": "latest",
+    "rollup-plugin-commonjs": "latest",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-node-resolve": "latest",
+    "rollup-plugin-terser": "latest",
+    "terser": "^4.1.3"
   }
 }

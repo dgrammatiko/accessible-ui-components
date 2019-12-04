@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <accessible-alert type="info" dismiss auto-dismiss="4000">
+    <accessible-alert-content>
+      <strong>Title</strong>
+      <p>content</p>
+    </accessible-alert-content>
+  </accessible-alert>
+
+  <accessible-alert type="warning" dismiss>
+    <accessible-alert-content>
+      <strong>Title</strong>
+      <p>content</p>
+    </accessible-alert-content>
+  </accessible-alert>
+
+  <accessible-alert type="danger" dismiss>
+    <accessible-alert-content>
+      <strong>Title</strong>
+      <p>content</p>
+    </accessible-alert-content>
+  </accessible-alert>
+
+  <accessible-alert type="success" dismiss>
+    <accessible-alert-content>
+      <strong>Title</strong>
+      <p>content</p>
+    </accessible-alert-content>
+  </accessible-alert>
+
+  <hr>
+
+  <accessible-tabs>
+    <accessible-tab active name="tab 1" id="tab-1">
+      Somecontent 1
+    </accessible-tab>
+    <accessible-tab name="tab 2" id="tab-2">
+      Somecontent 2
+    </accessible-tab>
+  </accessible-tabs>
+
+  <link rel="stylesheet" href="dist/css/joomla-alert.css">
+  <script type="module" src="dist/js/accessible-alert.es6module.min.js"></script>
+  <script type="module" src="dist/js/accessible-tabs.es6module.js"></script>
+</body>
+
+</html>

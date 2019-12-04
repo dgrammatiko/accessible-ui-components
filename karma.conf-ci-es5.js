@@ -1,6 +1,7 @@
-// eslint disable
+/* eslint-disable func-names */
 module.exports = function (config) {
   // Browsers to run on Sauce Labs
+  // eslint-disable-next-line no-var
   var customLaunchers = {
     SL_IE_11: {
       base: 'SauceLabs',
