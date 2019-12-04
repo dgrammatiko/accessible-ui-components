@@ -20,8 +20,8 @@
   ],
   "author": "Dimitrios Grammatikogiannis",
   "scripts": {
-    "build": "rollup -c config.es6.js && rollup -c config.es5.js",
-    "autobuild": "rollup -c config.es6.js -w",
+    "build": "node build.js",
+    "autobuild": "node build.js",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
     "tests": "karma start karma.conf.js",
