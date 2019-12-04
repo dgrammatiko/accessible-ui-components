@@ -1,4 +1,3 @@
-import { AccessibleAlertTitle } from './alert-title';
 import { AccessibleAlertContent } from './alert-content';
 
 class AccessibleAlert extends HTMLElement {
@@ -45,11 +44,33 @@ class AccessibleAlert extends HTMLElement {
 
   set buttonText(value) { return this.setAttribute('button-text', value); }
 
+  /**
+   * Respond to attribute changes
+   */
+  attributeChangedCallback(attr, oldValue, newValue) {
+    switch (attr) {
+      case 'type':
+        if (!newValue || (newValue && ['info', 'warning', 'danger', 'success'].indexOf(newValue) === -1)) {
+          this.type = 'info';
+        }
+        break;
+      case 'dismiss':
+      case 'title':
+      case 'message':
+      case 'button-text':
+      case 'auto-dismiss':
+        this.render();
+        break;
+      default:
+        break;
+    }
+  }
+
   constructor() {
     super();
     this.hasDismissButton = false;
     this.closeButton = '';
-
+    this.timeoutFn = null;
     this.dispatchCustomEvent = this.dispatchCustomEvent.bind(this);
     this.appendCloseButton = this.appendCloseButton.bind(this);
     this.removeCloseButton = this.removeCloseButton.bind(this);
@@ -57,7 +78,11 @@ class AccessibleAlert extends HTMLElement {
     this.close = this.close.bind(this);
 
     // Create the mutation observer instance.
-    const observer = new MutationObserver(mutations => mutations.forEach(mutation => this.handleMutations(mutation)));
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        this.handleMutations(mutation);
+      });
+    });
 
     // Configuration of the observer: only listen for children changes.
     const config = { childList: true };
@@ -89,28 +114,6 @@ class AccessibleAlert extends HTMLElement {
   }
 
   /**
-   * Respond to attribute changes
-   */
-  attributeChangedCallback(attr, oldValue, newValue) {
-    switch (attr) {
-      case 'type':
-        if (!newValue || (newValue && ['info', 'warning', 'danger', 'success'].indexOf(newValue) === -1)) {
-          this.type = 'info';
-        }
-        break;
-      case 'dismiss':
-      case 'title':
-      case 'message':
-      case 'button-text':
-      case 'auto-dismiss':
-        this.render();
-        break;
-      default:
-        break;
-    }
-  }
-
-  /**
    * Method to dispatch events
    */
   dispatchCustomEvent(eventName) {
@@ -123,23 +126,33 @@ class AccessibleAlert extends HTMLElement {
    */
   close() {
     this.dispatchCustomEvent('accessible.alert.hide');
-    this.removeAttribute('show');
-    this.parentNode.removeChild(this);
+
+    if (this.closeButton) {
+      this.closeButton.removeEventListener('click', this.close);
+    }
+
+    if (this.timeoutFn && typeof this.timeoutFn === 'function') {
+      clearTimeout(this.timeoutFn);
+    }
+
+    if (this.parentNode) {
+      this.parentNode.removeChild(this);
+    }
   }
 
   /**
    * Method to create the close button
    */
   appendCloseButton() {
-    this.setAttribute('role', 'alert');
-    this.closeButton = this.querySelector('button');
+    // this.setAttribute('role', 'alert');
+    this.closeButton = this.querySelector('button.oiuofdgj3425');
 
     if (!this.closeButton) {
       this.closeButton = document.createElement('button');
     }
 
-    this.closeButton.textContent = this.buttonText;
     this.closeButton.setAttribute('aria-label', this.buttonText);
+    this.closeButton.setAttribute('class', 'oiuofdgj3425');
     this.closeButton.setAttribute('type', 'button');
     this.insertAdjacentElement('beforeend', this.closeButton);
     this.closeButton.addEventListener('click', this.close);
@@ -159,43 +172,21 @@ class AccessibleAlert extends HTMLElement {
    * Method to render the alert
    */
   render() {
-    this.ensureStructure();
-
     if (!this.hasAttribute('dismiss') || (this.dismiss && this.dismiss === 'false')) {
       this.removeCloseButton();
     } else {
       this.appendCloseButton();
     }
 
-    if (!this.hasAttribute('auto-dismiss') || (this.autoDismiss && this.autoDismiss < 0)) {
-      if (typeof this.timeoutFn === 'function') {
-        clearTimeout(this.timeoutFn);
-      }
-    } else {
-      this.timeoutFn = setTimeout(this.close, this.autoDismiss);
-    }
-  }
-
-  /**
-   * Method to keep a constant structure for the alerts
-   */
-  ensureStructure() {
-    this.titleElement = this.querySelector('accessible-alert-title');
-
-    // Title needs to be the first element
-    if (this.titleElement && this.titleElement !== this.firstChild) {
-      this.insertAdjacentElement('afterbegin', this.titleElement);
+    if (this.timeoutFn > 0) {
+      clearTimeout(this.timeoutFn);
+      this.timeoutFn = null;
     }
 
-    this.contentElement = this.querySelector('accessible-alert-content');
-
-    // The content is always before the button or the last element
-    if (this.contentElement) {
-      if (this.closeButton && this.lastElementChild !== this.closeButton) {
-        this.insertBefore(this.contentElement, this.closeButton);
+    if (this.hasAttribute('auto-dismiss') && this.autoDismiss) {
+      if (this.timeoutFn === null) {
+        this.timeoutFn = setTimeout(this.close, this.autoDismiss);
       }
-    } else {
-      this.appendChild(this.contentElement);
     }
   }
 
@@ -208,12 +199,12 @@ class AccessibleAlert extends HTMLElement {
     // Only update given nodes from the mutation.
     if (record instanceof MutationRecord) {
       Array.from(record.addedNodes).forEach((node) => {
-        if (node instanceof AccessibleAlertTitle || node instanceof AccessibleAlertContent) {
+        if (node.nodeName.toLowerCase() === 'accessible-alert-content') {
           this.render();
         }
       });
       Array.from(record.removedNodes).forEach((node) => {
-        if (node instanceof AccessibleAlertTitle || node instanceof AccessibleAlertContent) {
+        if (node.nodeName.toLowerCase() === 'accessible-alert-content') {
           this.render();
         }
       });
@@ -221,8 +212,11 @@ class AccessibleAlert extends HTMLElement {
   }
 }
 
-// export { AccessibleAlertTitle, AccessibleAlertContent, AccessibleAlert };
+if (!window.customElements.get('accessible-alert-content')) {
+  customElements.define('accessible-alert-content', AccessibleAlertContent);
+}
+if (!window.customElements.get('accessible-alert')) {
+  customElements.define('accessible-alert', AccessibleAlert);
+}
 
-customElements.define('accessible-alert-title', AccessibleAlertTitle);
-customElements.define('accessible-alert-content', AccessibleAlertContent);
-customElements.define('accessible-alert', AccessibleAlert);
+export { AccessibleAlertContent, AccessibleAlert };
