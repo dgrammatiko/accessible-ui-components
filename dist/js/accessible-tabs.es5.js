@@ -163,6 +163,7 @@ var tabs = (function (exports) {
       /**
        * Respond to attribute changes
        */
+      // eslint-disable-next-line
       value: function attributeChangedCallback(attr, oldValue, newValue) {
         switch (attr) {
           case 'recall':
@@ -208,7 +209,7 @@ var tabs = (function (exports) {
       _this.tabLinkHash = []; // Create the mutation observer instance.
 
       var observer = new MutationObserver(function (mutations) {
-        return mutations.forEach(function (mutation) {
+        mutations.forEach(function (mutation) {
           return _this.handleMutations(mutation);
         });
       }); // Configuration of the observer: only listen for children changes.
@@ -284,14 +285,12 @@ var tabs = (function (exports) {
       value: function buildNavigation() {
         var _this4 = this;
 
-        this.tabElements = Array.from(this.children);
-        console.log(this.tabElements);
+        this.tabElements = Array.from(this.children); // console.log(this.tabElements)
 
         if (this.tabElements.length) {
           /** Activate Tab */
           var activateTabFromLink = function activateTabFromLink(e) {
             e.preventDefault();
-            debugger;
 
             if (_this4.hasActive) {
               _this4.hideCurrent();

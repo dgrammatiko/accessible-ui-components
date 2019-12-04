@@ -18,6 +18,7 @@ this['/Users/dgrammatiko/Code/desktop/joomla-ui-components/dist/js/accessible-ta
     /**
      * Respond to attribute changes
      */
+    // eslint-disable-next-line
     attributeChangedCallback(attr, oldValue, newValue) {
       switch (attr) {
         case 'recall':
@@ -42,7 +43,9 @@ this['/Users/dgrammatiko/Code/desktop/joomla-ui-components/dist/js/accessible-ta
       this.tabLinkHash = [];
 
       // Create the mutation observer instance.
-      const observer = new MutationObserver(mutations => mutations.forEach(mutation => this.handleMutations(mutation)));
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => this.handleMutations(mutation));
+      });
 
       // Configuration of the observer: only listen for children changes.
       const config = { childList: true };
@@ -103,12 +106,11 @@ this['/Users/dgrammatiko/Code/desktop/joomla-ui-components/dist/js/accessible-ta
      */
     buildNavigation() {
       this.tabElements = Array.from(this.children);
-      console.log(this.tabElements);
+      // console.log(this.tabElements)
       if (this.tabElements.length) {
         /** Activate Tab */
         const activateTabFromLink = (e) => {
           e.preventDefault();
-          debugger;
           if (this.hasActive) {
             this.hideCurrent();
           }
@@ -231,10 +233,10 @@ this['/Users/dgrammatiko/Code/desktop/joomla-ui-components/dist/js/accessible-ta
       // collect tab targets, and their parents' prev/next (or first/last)
       const currentTab = this.querySelector(`#tab-${this.currentActive}`);
 
-      const previousTabItem = currentTab.parentNode.previousElementSibling ||
-        currentTab.parentNode.parentNode.lastElementChild;
-      const nextTabItem = currentTab.parentNode.nextElementSibling ||
-        currentTab.parentNode.parentNode.firstElementChild;
+      const previousTabItem = currentTab.parentNode.previousElementSibling
+        || currentTab.parentNode.parentNode.lastElementChild;
+      const nextTabItem = currentTab.parentNode.nextElementSibling
+        || currentTab.parentNode.parentNode.firstElementChild;
 
       // Don't catch key events when ⌘ or Alt modifier is present
       if (e.metaKey || e.altKey) {
