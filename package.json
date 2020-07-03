@@ -42,7 +42,7 @@
     "autoprefixer": "latest",
     "core-js": "latest",
     "cssnano": "latest",
-    "eslint": "7.3.1",
+    "eslint": "7.4.0",
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "latest",
     "karma": "latest",
