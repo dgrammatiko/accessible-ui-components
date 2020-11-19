@@ -56,6 +56,6 @@
     "rollup-plugin-livereload": "2.0.0",
     "rollup-plugin-node-resolve": "latest",
     "rollup-plugin-terser": "latest",
-    "terser": "5.4.0"
+    "terser": "5.5.0"
   }
 }
